@@ -1,34 +1,7 @@
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
+import React from 'react';
+import { useRouter } from 'next/router';
 import appConfig from '../config.json';
-
-function GlobalStyle() {
-  return (
-    <style global jsx>{`
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        list-style: none;
-      }
-      body {
-        font-family: 'Open Sans', sans-serif;
-      }
-      /* App fit Height */ 
-      html, body, #__next {
-        min-height: 100vh;
-        display: flex;
-        flex: 1;
-      }
-      #__next {
-        flex: 1;
-      }
-      #__next > * {
-        flex: 1;
-      }
-      /* ./App fit Height */ 
-    `}</style>
-  );
-}
 
 function Titulo(props) {
   const Tag = props.tag || 'h1';
@@ -60,11 +33,13 @@ function Titulo(props) {
 // export default HomePage
 
 export default function PaginaInicial() {
-  const username = 'Elliot';
+  //const username = 'Elliot';
+  const [username, setUsername] = React.useState('julesnegri');
+  const roteamento = useRouter();
 
   return (
     <>
-      <GlobalStyle />
+
       <Box
         styleSheet={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -74,6 +49,12 @@ export default function PaginaInicial() {
         }}
       >
         <Box
+          onSubmit={function (infosDoEvento) {
+            infosDoEvento.preventDefault();
+            console.log('Alguém submeteu o form');
+            roteamento.push('/chat');
+            // window.location.href = '/chat';
+          }}  
           styleSheet={{
             display: 'flex',
             alignItems: 'center',
@@ -101,7 +82,31 @@ export default function PaginaInicial() {
               {appConfig.name}
             </Text>
 
+            {/* <input
+              type="text"
+              value={username}
+              onChange={function (event) {
+                  console.log('usuario digitou', event.target.value);
+                  // Onde ta o valor?
+                  const valor = event.target.value;
+                  // Trocar o valor da variavel
+                  // através do React e avise quem precisa
+                  setUsername(valor);
+              }}
+            /> */}
+            
+
+
             <TextField
+              value={username}
+              onChange={function (event) {
+                console.log('usuario digitou', event.target.value);
+                // Onde ta o valor?
+                const valor = event.target.value;
+                // Trocar o valor da variavel
+                // através do React e avise quem precisa
+                setUsername(valor);
+              }}
               fullWidth
               textFieldColors={{
                 neutral: {
@@ -148,8 +153,8 @@ export default function PaginaInicial() {
                 borderRadius: '50%',
                 marginBottom: '16px',
               }}
-              //src={`https://github.com/${username}.png`}
-              src={`https://0xtaylor.github.io/img/thm_mrrobot/card.png`}
+              src={`https://github.com/${username}.png`}
+              //src={`https://0xtaylor.github.io/img/thm_mrrobot/card.png`}
             />
             <Text
               variant="body4"
